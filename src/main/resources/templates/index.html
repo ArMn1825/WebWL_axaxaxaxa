@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 70%;
+            margin: 2% auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"], input[type="checkbox"], select {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .output-container {
+            width: 100%;
+            max-width: 100%;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        select {
+            background-color: #fff;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+        .checkbox-label {
+            font-weight: normal;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #f44336;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #e53935;
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        legend {
+            font-weight: bold;
+        }
+        .checkbox-group {
+            display: grid;
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .checkbox-label-bold {
+            font-weight: bold;
+        }
+        .checkbox-section {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Уточните Ваши данные</h1>
+    <form th:action="@{/submit}" th:method="post" th:object="${data}">
+        <label for="clientId">ID пользователя:</label>
+        <input type="text" id="clientId" th:field="*{clientID}" required>
+
+        <label for="organizationId">ID организации:</label>
+        <input type="text" id="organizationId" th:field="*{organizationID}" required>
+
+        <label for="segment">Сегмент организации:</label>
+        <select id="segment" th:field="*{segment}" required>
+            <option value="small business">Малый бизнес</option>
+            <option value="medium business">Средний бизнес</option>
+            <option value="large business">Крупный бизнес</option>
+        </select>
+
+        <label for="role">Роль уполномоченного лица:</label>
+        <select id="role" th:field="*{role}" required>
+            <option value="eio">ЕИО</option>
+            <option value="employee">Сотрудник</option>
+        </select>
+
+        <label for="organizations">Количество организаций:</label>
+        <input type="number" id="organizations" th:field="*{organizations}" min="1" max="300" required>
+
+        <label for="currentMethod">Действующий способ подписания:</label>
+        <select id="currentMethod" th:field="*{currentMethod}" required>
+            <option value="SMS">SMS</option>
+            <option value="PayControl">PayControl</option>
+            <option value="ES on token">КЭП на токене</option>
+            <option value="ES in app">КЭП в приложении</option>
+        </select>
+
+        <label class="checkbox-label-bold" for="mobileApp">Мобильное приложение:</label>
+        <input type="checkbox" id="mobileApp" th:field="*{mobileApp}">
+
+        <fieldset>
+            <legend>Подписанные документы</legend>
+            <label for="commonMobile">Базовые (мобильное):</label>
+            <input type="number" id="commonMobile" th:field="*{signatures.common.mobile}" min="0" max="4000000000">
+
+            <label for="commonWeb">Базовые (веб):</label>
+            <input type="number" id="commonWeb" th:field="*{signatures.common.web}" min="0" max="4000000000">
+
+            <label for="specialMobile">Особой важности (мобильное):</label>
+            <input type="number" id="specialMobile" th:field="*{signatures.special.mobile}" min="0" max="4000000000">
+
+            <label for="specialWeb">Особой важности (веб):</label>
+            <input type="number" id="specialWeb" th:field="*{signatures.special.web}" min="0" max="4000000000">
+        </fieldset>
+
+        <div class="checkbox-section">
+            <h3>Подключенные способы подписания:</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" th:field="*{availableMethods}" value="SMS"> SMS</label>
+                <label><input type="checkbox" th:field="*{availableMethods}" value="PayControl"> PayControl</label>
+                <label><input type="checkbox" th:field="*{availableMethods}" value="ES on token"> КЭП на токене</label>
+                <label><input type="checkbox" th:field="*{availableMethods}" value="ES in app"> КЭП в приложении</label>
+            </div>
+        </div>
+
+        <div class="full-width">
+            <label for="claims">Обращения в банк насчёт проблем с SMS:</label>
+            <input type="number" id="claims" th:field="*{claims}" min="0" max="4000000000">
+        </div>
+
+        <button type="submit" class="submit-btn full-width">Отправить</button>
+    </form>
+    <div th:if="${result != null}" class="output-container full-width">
+        <strong>Вам поступила рекомендация!:</strong>
+        <p th:text="${result}"></p>
+    </div>
+</div>
+</body>
+</html>

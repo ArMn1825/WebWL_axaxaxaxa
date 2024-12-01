@@ -1,0 +1,1 @@
+{"nodeID":0,"clientID":"qwe","organizationID":"rty","segment":"large business","role":"eio","organizations":1,"currentMethod":"ES in app","mobileApp":false,"signatures":{"common":{"mobile":2,"web":0},"special":{"mobile":65,"web":0}},"availableMethods":["SMS","PayControl","ES on token","ES in app"],"claims":35}
