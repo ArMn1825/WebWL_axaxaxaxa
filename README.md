@@ -23,6 +23,7 @@ java -jar my-application-1.0-SNAPSHOT.jar<br />
 Перед запуском питоновского скрипта убедитесь в наличии интерпретатора питона и библиотек pandas и sklearn у себя на ПК<br />
 
 <br />
+Запись: https://drive.google.com/drive/folders/1dVUgAn7CCMqAzQVlCXEIamk-63AcyRlj?usp=sharing<br />
 Команда Хахатонщики<br />
 Манухин Артем - Backend-разработчик<br />
 Муксунов Тамдин - Data Scientist<br />
